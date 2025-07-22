@@ -1,0 +1,11 @@
+#answer {
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 10px;
+    min-height: 150px;
+}
+
+.divider {
+    margin: 20px;
+    background-color: black;
+}
