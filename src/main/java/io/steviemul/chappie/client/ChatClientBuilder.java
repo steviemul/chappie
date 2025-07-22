@@ -1,4 +1,4 @@
-package io.steviemul.chattie.client;
+package io.steviemul.chappie.client;
 
 import org.springframework.stereotype.Component;
 

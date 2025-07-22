@@ -1,12 +1,12 @@
-package io.steviemul.chattie;
+package io.steviemul.chappie;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ChattieApplication {
+public class ChappieApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(ChattieApplication.class, args);
+    SpringApplication.run(ChappieApplication.class, args);
   }
 }

@@ -1,4 +1,4 @@
-package io.steviemul.chattie.request;
+package io.steviemul.chappie.request;
 
 public record ChatRequest(String message) {
 }

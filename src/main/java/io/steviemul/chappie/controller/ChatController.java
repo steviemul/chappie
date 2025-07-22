@@ -1,8 +1,8 @@
-package io.steviemul.chattie.controller;
+package io.steviemul.chappie.controller;
 
-import io.steviemul.chattie.request.ChatOptions;
-import io.steviemul.chattie.request.ChatRequest;
-import io.steviemul.chattie.service.ChatService;
+import io.steviemul.chappie.request.ChatOptions;
+import io.steviemul.chappie.request.ChatRequest;
+import io.steviemul.chappie.service.ChatService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

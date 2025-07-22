@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.steviemul</groupId>
-	<artifactId>chattie</artifactId>
+	<artifactId>chappie</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>chattie</name>
+	<name>chappie</name>
 	<description>Sample AI Chat Application</description>
 
 	<properties>

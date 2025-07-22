@@ -7,7 +7,7 @@ spring:
       model: ${OLLAMA_MODEL:llama3.2}
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/chattie_db
+    url: jdbc:postgresql://localhost:5432/chappie_db
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: password
@@ -17,5 +17,5 @@ spring:
   flyway:
     out-of-order: true
     sql-migration-prefix: T
-    table: flyway_schema_chattie
+    table: flyway_schema_chappie
     validate-on-migrate: false

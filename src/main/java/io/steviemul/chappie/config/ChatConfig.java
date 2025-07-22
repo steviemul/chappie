@@ -1,4 +1,4 @@
-package io.steviemul.chattie.config;
+package io.steviemul.chappie.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
