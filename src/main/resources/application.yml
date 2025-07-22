@@ -2,6 +2,10 @@ server:
   port: 15080
 
 spring:
+  ai:
+    ollama:
+      model: ${OLLAMA_MODEL:llama3.2}
+
   datasource:
     url: jdbc:postgresql://localhost:5432/chattie_db
     driver-class-name: org.postgresql.Driver

@@ -5,11 +5,11 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: vector_db
+      POSTGRES_DB: chattie_db
     ports:
       - "5432:5432"
     volumes:
-      - pg-data:/var/lib/postgresql/data
+      - chattie-data:/var/lib/postgresql/data
 
   ollama:
     image: ollama/ollama:latest
@@ -18,4 +18,4 @@ services:
       - "11434:11434"
 
 volumes:
-  pg-data: {}
+  chattie-data: {}
