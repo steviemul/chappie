@@ -1,11 +1,16 @@
+main {
+    margin-top: 20px;
+}
+
 #answer {
-    border: 1px solid black;
-    border-radius: 3px;
-    padding: 10px;
-    min-height: 150px;
+    min-height: 300px;
+    white-space:pre-wrap;
+    word-wrap:break-word;
+    max-height: 600px;
+    overflow-y: auto;
 }
 
 .divider {
-    margin: 20px;
-    background-color: black;
+    margin: 10px;
+    background-color: lightgray;
 }

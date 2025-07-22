@@ -2,42 +2,53 @@
 
     <head>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css" media="screen,projection"/>
 
-        <link type="text/css" rel="stylesheet" href="css/styles.css"  media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="css/styles.css" media="screen,projection"/>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
         <title>Chattie</title>
 
     </head>
+
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col s12">
-                    <h1 class="center-align">Chattie</h1>
+        <header>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo center">Chattie</a>
                 </div>
-            </div>
+            </nav>
+        </header>
 
-            <div class="row">
-                <div class="col s12">
-                    <p id="answer" class="grey lighten-1"></p>
-                </div>
-            </div>
-
-            <div class="row">
-                <form class="col s12" id="form-question">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix">mode_edit</i>
-                            <input id="question" type="text" class="validate">
-                            <label for="question">Ask me anything</label>
-                        </div>
+        <main>
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <pre id="answer" class="card-panel"></pre>
                     </div>
-                </form>
-            </div>
+                </div>
 
-        </div>
+                <div class="row">
+                    <form class="col s12" id="form-question">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">mode_edit</i>
+                                <input id="question" type="text" class="validate">
+                                <label for="question">Ask me anything</label>
+                            </div>
+
+                            <div class="input-field col s12">
+                                <label>
+                                    <input type="checkbox" id="remember"/>
+                                    <span>Remember me</span>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
 
         <script type="text/javascript" src="js/materialize.min.js"></script>
         <script type="module" src="js/main.js"></script>
