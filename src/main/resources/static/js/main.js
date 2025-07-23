@@ -28,8 +28,8 @@ async function streamToElement(url, elementId) {
   }
 }
 
-const ask = (message, remember, rag) => {
-  streamToElement(`/chat?remember=${remember}&rag=${rag}&message=${message}`, 'answer');
+const ask = (message, remember, rag, tools) => {
+  streamToElement(`/chat?remember=${remember}&rag=${rag}&tools=${tools}&message=${message}`, 'answer');
 };
 
 const handleFormSubmission = event => {
@@ -37,10 +37,11 @@ const handleFormSubmission = event => {
   const question = document.getElementById('question').value;
   const remember = document.getElementById('remember').checked;
   const rag = document.getElementById('rag').checked;
+  const tools = document.getElementById('tools').checked;
 
   document.getElementById('question').value = '';
 
-  ask(question, remember, rag);
+  ask(question, remember, rag, tools);
 
   event.preventDefault();
 };

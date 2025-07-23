@@ -1,6 +1,7 @@
 package io.steviemul.chappie.client;
 
 import io.steviemul.chappie.request.ChatOptions;
+import io.steviemul.chappie.tools.WeatherTool;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
@@ -29,6 +30,7 @@ public class ChatClientBuilder {
   public ChatClient build(ChatOptions chatOptions) {
 
     List<Advisor> advisors = new ArrayList<>();
+    List<Object> tools = new ArrayList<>();
 
     if (chatOptions.isRemember()) {
       advisors.add(MessageChatMemoryAdvisor.builder(chatMemory).build());

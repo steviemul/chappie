@@ -17,8 +17,9 @@ public class RagController {
   @PostMapping("/rag")
   public ResponseEntity<Void> uploadRag(@RequestParam("file") MultipartFile file) {
 
-    ragService.saveFile(file);;
+    ragService.saveFile(file);
 
     return ResponseEntity.noContent().build();
   }
+
 }
