@@ -45,6 +45,21 @@ const handleFormSubmission = event => {
   event.preventDefault();
 };
 
+const performFormUpload = evt => {
+
+  const form = evt.target;
+
+  const fd = new FormData(form);
+
+  fetch('/rag', {method: 'POST', body: fd})
+      .then(function(res) {
+
+        M.toast({html: 'File uploaded successfully', classes: 'rounded'})
+
+        form.reset();
+      })
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById("form-question")
@@ -54,4 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .addEventListener('click', () => {
         document.getElementById('answer').innerHTML = '';
       });
+
+  document.getElementById('ragUpload').onsubmit = performFormUpload;
 });
