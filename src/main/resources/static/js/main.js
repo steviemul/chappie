@@ -28,18 +28,19 @@ async function streamToElement(url, elementId) {
   }
 }
 
-const ask = (message, remember) => {
-  streamToElement(`/chat?remember=${remember}&message=${message}`, 'answer');
+const ask = (message, remember, rag) => {
+  streamToElement(`/chat?remember=${remember}&rag=${rag}&message=${message}`, 'answer');
 };
 
 const handleFormSubmission = event => {
 
   const question = document.getElementById('question').value;
   const remember = document.getElementById('remember').checked;
+  const rag = document.getElementById('rag').checked;
 
   document.getElementById('question').value = '';
 
-  ask(question, remember);
+  ask(question, remember, rag);
 
   event.preventDefault();
 };
@@ -48,4 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById("form-question")
       .addEventListener("submit", handleFormSubmission);
+
+  document.getElementById('clear-button')
+      .addEventListener('click', () => {
+        document.getElementById('answer').innerHTML = '';
+      });
 });

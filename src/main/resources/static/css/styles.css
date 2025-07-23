@@ -18,3 +18,7 @@ main {
     margin: 10px;
     background-color: lightgray;
 }
+
+#clear-button {
+    cursor: pointer;
+}

@@ -21,10 +21,6 @@ public class ChatController {
       ChatOptions chatOptions,
       ChatRequest chatRequest) {
 
-    if (chatOptions.remember()) {
-      return chatService.chat(chatRequest.message(), session.getId());
-    }
-
-    return chatService.chat(chatRequest.message());
+    return chatService.chat(chatRequest.message(), session.getId(), chatOptions);
   }
 }

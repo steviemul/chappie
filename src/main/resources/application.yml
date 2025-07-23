@@ -3,8 +3,14 @@ server:
 
 spring:
   ai:
-    ollama:
-      model: ${OLLAMA_MODEL:llama3.2}
+    chat:
+      model: ${CHAT_MODEL:llama3.2}
+      memory:
+        repository:
+          jdbc:
+            initialize-schema: always
+    embedding:
+      model: ${EMBEDDING_MODEL:nomic-embed-text}
 
   datasource:
     url: jdbc:postgresql://localhost:5432/chappie_db
