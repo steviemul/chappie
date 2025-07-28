@@ -1,3 +1,27 @@
+class AnswerHeader {
+
+  constructor(question) {
+    const headerElement = document.createElement('div');
+
+  }
+}
+
+class ChatContainer {
+
+  constructor(question, parentElement) {
+    this.question = question;
+    this.parentElement = parentElement;
+
+    const answerContainer = document.createElement('li');
+
+    parentElement.appendChild(answerContainer);
+
+
+  }
+
+
+}
+
 async function streamToElement(url, elementId) {
 
   try {
@@ -18,6 +42,8 @@ async function streamToElement(url, elementId) {
       }
 
       const chunkText = decoder.decode(value, {stream: true});
+
+      console.log(`Chunk - ${chunkText}`);
 
       outputElement.innerHTML += chunkText;
 
