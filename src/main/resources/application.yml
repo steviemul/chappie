@@ -5,6 +5,7 @@ spring:
   ai:
     chat:
       model: ${CHAT_MODEL:llama3.2}
+      base-url: ${CHAT_BASE_URL:http://localhost:11434}
       memory:
         repository:
           jdbc:
@@ -13,7 +14,7 @@ spring:
       model: ${EMBEDDING_MODEL:nomic-embed-text}
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/chappie_db
+    url: ${JDBC_URL:jdbc:postgresql://localhost:5432/chappie_db}
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: password

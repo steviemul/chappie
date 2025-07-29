@@ -12,6 +12,7 @@ main {
     word-wrap:break-word;
     max-height: 600px;
     overflow-y: auto;
+    border-radius: 10px;
 }
 
 .divider {

@@ -28,15 +28,21 @@ public class ChatConfig {
 
   private static final String VECTOR_STORE_TABLE = "vector_store_chappie";
 
-  private final OllamaApi ollamaApi = OllamaApi.builder().build();
+  private final OllamaApi ollamaApi;
   private final String chatModel;
   private final String embeddingModel;
   private final JdbcTemplate jdbcTemplate;
 
   public ChatConfig(
       @Value("${spring.ai.chat.model}") String chatModel,
+      @Value("${spring.ai.chat.base-url}") String chatBaseUrl,
       @Value("${spring.ai.embedding.model}") String embeddingModel,
       JdbcTemplate jdbcTemplate) {
+
+    this.ollamaApi = OllamaApi.builder()
+        .baseUrl(chatBaseUrl)
+        .build();
+
     this.chatModel = chatModel;
     this.embeddingModel = embeddingModel;
     this.jdbcTemplate = jdbcTemplate;

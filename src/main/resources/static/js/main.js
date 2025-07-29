@@ -1,26 +1,4 @@
-class AnswerHeader {
-
-  constructor(question) {
-    const headerElement = document.createElement('div');
-
-  }
-}
-
-class ChatContainer {
-
-  constructor(question, parentElement) {
-    this.question = question;
-    this.parentElement = parentElement;
-
-    const answerContainer = document.createElement('li');
-
-    parentElement.appendChild(answerContainer);
-
-
-  }
-
-
-}
+import { ChatContainer } from "./modules/chatContainer.mjs";
 
 async function streamToElement(url, elementId) {
 
@@ -55,7 +33,23 @@ async function streamToElement(url, elementId) {
 }
 
 const ask = (message, remember, rag, tools) => {
-  streamToElement(`/chat?remember=${remember}&rag=${rag}&tools=${tools}&message=${message}`, 'answer');
+  const queryParams = new URLSearchParams({
+    remember,
+    rag,
+    tools,
+    message
+  });
+
+  try {
+    const chatContainer = new ChatContainer(message);
+
+    document.body.appendChild(chatContainer);
+  }
+  catch (error) {
+    console.error('Error adding chat', error);
+  }
+
+  streamToElement(`chat?${queryParams.toString()}`, 'answer');
 };
 
 const handleFormSubmission = event => {
