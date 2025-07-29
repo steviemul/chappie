@@ -1,12 +1,11 @@
-import { ChatContainer } from "./modules/chatContainer.mjs";
+import { Chat } from "./modules/chat.mjs";
 
-async function streamToElement(url, elementId) {
+async function streamToChat(url, chat) {
 
   try {
-    const outputElement = document.getElementById(elementId);
-
     const response = await fetch(url);
     const reader = response.body.getReader();
+    const chatContainer = document.getElementById('chat-container');
 
     const decoder = new TextDecoder();
 
@@ -15,7 +14,6 @@ async function streamToElement(url, elementId) {
 
       if (done) {
         console.log('Stream complete');
-        outputElement.innerHTML += '<br><div class="divider"></div>';
         break;
       }
 
@@ -23,9 +21,9 @@ async function streamToElement(url, elementId) {
 
       console.log(`Chunk - ${chunkText}`);
 
-      outputElement.innerHTML += chunkText;
+      chat.addContent(chunkText);
 
-      outputElement.scrollTop = outputElement.scrollHeight;
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
   } catch (error) {
     console.error('Error streaming response : ', error)
@@ -40,16 +38,12 @@ const ask = (message, remember, rag, tools) => {
     message
   });
 
-  try {
-    const chatContainer = new ChatContainer(message);
+  const chat = new Chat(message);
 
-    document.body.appendChild(chatContainer);
-  }
-  catch (error) {
-    console.error('Error adding chat', error);
-  }
+  document.getElementById('chat-container')
+      .appendChild(chat);
 
-  streamToElement(`chat?${queryParams.toString()}`, 'answer');
+  streamToChat(`chat?${queryParams.toString()}`, chat);
 };
 
 const handleFormSubmission = event => {
