@@ -25,6 +25,15 @@ main {
     background-color: #f5f5f5;
 }
 
+.thinking > div {
+    margin-right:30px;
+}
+
+.collapsible-body pre {
+    white-space:pre-wrap;
+    word-wrap:break-word;
+}
+
 .question {
     background-color: #424242;
     color: white;

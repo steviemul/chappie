@@ -19,7 +19,7 @@ async function streamToChat(url, chat) {
 
       const chunkText = decoder.decode(value, {stream: true});
 
-      console.log(`Chunk - ${chunkText}`);
+      console.debug(`Chunk - ${chunkText}`);
 
       chat.addContent(chunkText);
 
