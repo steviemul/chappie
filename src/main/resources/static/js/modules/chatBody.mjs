@@ -1,5 +1,5 @@
 import { Thinker } from "./chatThinker.mjs";
-
+import { MarkdownBlock } from "https://md-block.verou.me/md-block.js";
 const THINK_OPENER = '<think>';
 const THINK_CLOSER = '</think>';
 

@@ -11,7 +11,7 @@ spring:
           jdbc:
             initialize-schema: always
     embedding:
-      model: ${EMBEDDING_MODEL:nomic-embed-text}
+      model: ${EMBEDDING_MODEL:nomic-embed-text:latest}
 
   datasource:
     url: ${JDBC_URL:jdbc:postgresql://localhost:5432/chappie_db}

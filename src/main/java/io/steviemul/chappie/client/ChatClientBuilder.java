@@ -10,6 +10,9 @@ import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvi
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.ai.ollama.api.OllamaApi;
+import org.springframework.ai.ollama.api.OllamaOptions;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -21,16 +24,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChatClientBuilder {
 
-  private final ChatModel chatModel;
+  private final ChatModel defaultChatModel;
   private final ChatMemory chatMemory;
   private final VectorStore vectorStore;
+  private final OllamaApi ollamaApi;
 
   private static final String RAG_TEMPLATE_RESOURCE = "templates/QuestionAnswer.template";
 
   public ChatClient build(ChatOptions chatOptions) {
 
     List<Advisor> advisors = new ArrayList<>();
-    List<Object> tools = new ArrayList<>();
 
     if (chatOptions.isRemember()) {
       advisors.add(MessageChatMemoryAdvisor.builder(chatMemory).build());
@@ -42,7 +45,7 @@ public class ChatClientBuilder {
           .build());
     }
 
-    return ChatClient.builder(chatModel)
+    return ChatClient.builder(getChatModel(chatOptions.model()))
         .defaultAdvisors(advisors)
         .build();
   }
@@ -51,6 +54,22 @@ public class ChatClientBuilder {
 
     return PromptTemplate.builder()
         .resource(new ClassPathResource(RAG_TEMPLATE_RESOURCE))
+        .build();
+  }
+
+  private ChatModel getChatModel(String name) {
+
+    if (name == null || name.isEmpty()) {
+      return defaultChatModel;
+    }
+
+    OllamaOptions ollamaOptions = OllamaOptions.builder()
+        .model(name)
+        .build();
+
+    return OllamaChatModel.builder()
+        .ollamaApi(ollamaApi)
+        .defaultOptions(ollamaOptions)
         .build();
   }
 }

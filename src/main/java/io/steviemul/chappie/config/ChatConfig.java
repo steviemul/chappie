@@ -1,10 +1,7 @@
 package io.steviemul.chappie.config;
 
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.ChatMemoryRepository;
-import org.springframework.ai.chat.memory.InMemoryChatMemoryRepository;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
 import org.springframework.ai.chat.memory.repository.jdbc.PostgresChatMemoryRepositoryDialect;
@@ -17,7 +14,6 @@ import org.springframework.ai.ollama.management.ModelManagementOptions;
 import org.springframework.ai.ollama.management.PullModelStrategy;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +25,12 @@ public class ChatConfig {
   private static final String VECTOR_STORE_TABLE = "vector_store_chappie";
 
   private final OllamaApi ollamaApi;
-  private final String chatModel;
+  private final String defaultChatModel;
   private final String embeddingModel;
   private final JdbcTemplate jdbcTemplate;
 
   public ChatConfig(
-      @Value("${spring.ai.chat.model}") String chatModel,
+      @Value("${spring.ai.chat.model}") String defaultChatModel,
       @Value("${spring.ai.chat.base-url}") String chatBaseUrl,
       @Value("${spring.ai.embedding.model}") String embeddingModel,
       JdbcTemplate jdbcTemplate) {
@@ -43,7 +39,7 @@ public class ChatConfig {
         .baseUrl(chatBaseUrl)
         .build();
 
-    this.chatModel = chatModel;
+    this.defaultChatModel = defaultChatModel;
     this.embeddingModel = embeddingModel;
     this.jdbcTemplate = jdbcTemplate;
   }
@@ -51,6 +47,21 @@ public class ChatConfig {
   private final ModelManagementOptions modelManagementOptions = ModelManagementOptions.builder()
       .pullModelStrategy(PullModelStrategy.WHEN_MISSING)
       .build();
+
+  @Bean
+  public String defaultChatModel() {
+    return defaultChatModel;
+  }
+
+  @Bean
+  public String embeddingModelName() {
+    return embeddingModel;
+  }
+
+  @Bean
+  public OllamaApi ollamaApi() {
+    return ollamaApi;
+  }
 
   @Bean
   public ChatMemory chatMemory() {
@@ -70,7 +81,7 @@ public class ChatConfig {
   public OllamaChatModel ollamaChatModel() {
 
     OllamaOptions ollamaOptions = OllamaOptions.builder()
-        .model(chatModel)
+        .model(defaultChatModel)
         .build();
 
     return OllamaChatModel.builder()

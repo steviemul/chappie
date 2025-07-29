@@ -1,5 +1,19 @@
 import { Chat } from "./modules/chat.mjs";
 
+async function getModels() {
+
+  try {
+    const response = await fetch('/models');
+
+    if (response.ok) {
+      return await response.json();
+    }
+  }
+  catch (error) {
+    console.error('Error fetching models', error);
+  }
+}
+
 async function streamToChat(url, chat) {
 
   try {
@@ -30,12 +44,13 @@ async function streamToChat(url, chat) {
   }
 }
 
-const ask = (message, remember, rag, tools) => {
+const ask = (message, remember, rag, tools, model) => {
   const queryParams = new URLSearchParams({
     remember,
     rag,
     tools,
-    message
+    message,
+    model
   });
 
   const chat = new Chat(message);
@@ -52,10 +67,11 @@ const handleFormSubmission = event => {
   const remember = document.getElementById('remember').checked;
   const rag = document.getElementById('rag').checked;
   const tools = document.getElementById('tools').checked;
+  const model = document.getElementById('chat-models').value;
 
   document.getElementById('question').value = '';
 
-  ask(question, remember, rag, tools);
+  ask(question, remember, rag, tools, model);
 
   event.preventDefault();
 };
@@ -82,8 +98,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('clear-button')
       .addEventListener('click', () => {
-        document.getElementById('answer').innerHTML = '';
+        document.getElementById('chat-container').innerHTML = '';
       });
 
   document.getElementById('ragUpload').onsubmit = performFormUpload;
+
+  getModels().then(res => {
+    const modelsSelect = document.getElementById('chat-models');
+
+    const defaultModel = res.defaultModel;
+    const models = res.additionalModels;
+
+    for (const model of models) {
+      const option = document.createElement('option');
+      option.value = model;
+      option.text = model;
+
+      modelsSelect.add(option);
+    }
+
+    modelsSelect.value = defaultModel;
+
+    M.FormSelect.init(modelsSelect);
+  });
 });

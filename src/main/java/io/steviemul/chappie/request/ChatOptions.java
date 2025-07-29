@@ -1,6 +1,6 @@
 package io.steviemul.chappie.request;
 
-public record ChatOptions(Boolean remember, Boolean rag, Boolean tools) {
+public record ChatOptions(Boolean remember, Boolean rag, Boolean tools, String model) {
 
   public boolean isRemember() {
     return remember != null && remember.booleanValue();
