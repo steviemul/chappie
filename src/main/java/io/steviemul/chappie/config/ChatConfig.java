@@ -6,6 +6,7 @@ import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.chat.memory.repository.jdbc.JdbcChatMemoryRepository;
 import org.springframework.ai.chat.memory.repository.jdbc.PostgresChatMemoryRepositoryDialect;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.model.tool.ToolCallingManager;
 import org.springframework.ai.ollama.OllamaChatModel;
 import org.springframework.ai.ollama.OllamaEmbeddingModel;
 import org.springframework.ai.ollama.api.OllamaApi;
@@ -47,6 +48,11 @@ public class ChatConfig {
   private final ModelManagementOptions modelManagementOptions = ModelManagementOptions.builder()
       .pullModelStrategy(PullModelStrategy.WHEN_MISSING)
       .build();
+
+  @Bean
+  public ToolCallingManager toolCallingManager() {
+    return ToolCallingManager.builder().build();
+  }
 
   @Bean
   public String defaultChatModel() {

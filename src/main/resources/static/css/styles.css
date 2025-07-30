@@ -1,7 +1,13 @@
 :root {
     --header-height: 56px;
     --footer-height: 56px;
-    --question-width: 350px;
+    --question-width: 500px;
+    --bubble-width: 500px;
+}
+
+.accordion {
+    --bs-accordion-active-color: var(--bs-accordion-color);
+    --bs-accordion-active-bg: var(--bs-accordion-bg);
 }
 
 nav {
@@ -19,9 +25,13 @@ section {
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
 }
 
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
 .answer {
-    white-space:pre-wrap;
-    word-wrap:break-word;
+    padding: 20px;
 }
 
 main {
@@ -46,15 +56,15 @@ footer {
 }
 
 #chat-container {
-    max-width: 900px;
     margin: 0 auto;
     border-radius: 10px;
     padding: 10px;
+    max-height: 80vh;
+    overflow-y: scroll;
 }
 
 .chat-fixed-width {
     width: 80%;
-    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -75,48 +85,48 @@ footer {
 }
 
 /* Base speech bubble style */
-    .speech-bubble {
-      position: relative;
-      display: inline-block;
-      padding: 1rem 1.25rem;
-      border-radius: 1rem;
-      max-width: 300px;
-      background-color: var(--bs-secondary);
-      color: white;
-    }
+.speech-bubble {
+    position: relative;
+    display: inline-block;
+    padding: 1rem 1.25rem;
+    border-radius: 1rem;
+    max-width: var(--bubble-width);
+    background-color: var(--bs-secondary);
+    color: white;
+}
 
-    /* Tail (default hidden) */
-    .speech-bubble::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 0;
-      border: 10px solid transparent;
-    }
+/* Tail (default hidden) */
+.speech-bubble::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+}
 
-    /* Tail directions */
-    .speech-bubble-bottom::after {
-      top: 100%;
-      left: 20px;
-      border-top-color: var(--bs-secondary);
-    }
+/* Tail directions */
+.speech-bubble-bottom::after {
+    top: 100%;
+    left: 20px;
+    border-top-color: var(--bs-secondary);
+}
 
-    .speech-bubble-top::after {
-      bottom: 100%;
-      left: 20px;
-      border-bottom-color: var(--bs-secondary);
-    }
+.speech-bubble-top::after {
+    bottom: 100%;
+    left: 20px;
+    border-bottom-color: var(--bs-secondary);
+}
 
-    .speech-bubble-left::after {
-      top: 50%;
-      left: -20px;
-      transform: translateY(-50%);
-      border-right-color: var(--bs-secondary);
-    }
+.speech-bubble-left::after {
+    top: 50%;
+    left: -20px;
+    transform: translateY(-50%);
+    border-right-color: var(--bs-secondary);
+}
 
-    .speech-bubble-right::after {
-      top: 50%;
-      right: -20px;
-      transform: translateY(-50%);
-      border-left-color: var(--bs-secondary);
-    }
+.speech-bubble-right::after {
+    top: 50%;
+    right: -20px;
+    transform: translateY(-50%);
+    border-left-color: var(--bs-secondary);
+}

@@ -1,5 +1,7 @@
 import { Chat } from "./modules/chat.mjs";
 
+let chatCount=0;
+
 async function getModels() {
 
   try {
@@ -53,7 +55,7 @@ const ask = (message, remember, rag, tools, model) => {
     model
   });
 
-  const chat = new Chat(message);
+  const chat = new Chat(message, chatCount++);
 
   document.getElementById('chat-container')
       .appendChild(chat);

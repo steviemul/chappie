@@ -3,7 +3,7 @@ import { ChatBody } from "./chatBody.mjs";
 
 class Chat extends HTMLDivElement {
 
-    constructor(question) {
+    constructor(question, index) {
         super();
 
         this.className = 'row chat-session';
@@ -14,7 +14,7 @@ class Chat extends HTMLDivElement {
 
         const header = new ChatHeader(question);
 
-        this.body = new ChatBody();
+        this.body = new ChatBody(index);
 
         colElement.appendChild(header);
         colElement.appendChild(this.body);

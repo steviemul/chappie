@@ -5,7 +5,7 @@ const THINK_CLOSER = '</think>';
 
 class ChatBody extends HTMLDivElement {
 
-  constructor() {
+  constructor(index) {
 
     super();
 
@@ -15,13 +15,13 @@ class ChatBody extends HTMLDivElement {
     const colElement = document.createElement('div');
     colElement.className = 'col-12';
 
-    const thinkingElement = new Thinker();
+    const thinkingElement = new Thinker(index);
 
     const contentElement = document.createElement('pre');
 
-    contentElement.className = 'answer';
+    contentElement.className = 'answer border rounded';
 
-    //colElement.appendChild(thinkingElement);
+    colElement.appendChild(thinkingElement);
     colElement.appendChild(contentElement);
 
     this.appendChild(colElement);

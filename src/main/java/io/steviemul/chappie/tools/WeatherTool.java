@@ -1,5 +1,6 @@
 package io.steviemul.chappie.tools;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -9,17 +10,20 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class WeatherTool {
 
   private static final String GEO_URL = "http://api.openweathermap.org/geo/1.0/direct?q={city}&limit=5&appid={api_key}";
   private static final String WEATHER_URL = "https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={api_key}";
 
   @Tool(name = "Current weather lookup", description = "Looks up today's weather for the specified city")
-  public String lookup(String city) {
+  public Weather lookup(String city) {
     Location location = getLocation(city);
     Weather weather = getWeather(location);
 
-    return "Hello World";
+    log.info("Current weather is {}", weather);
+
+    return weather;
   }
 
   private Weather getWeather(Location location) {

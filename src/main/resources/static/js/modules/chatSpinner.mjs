@@ -3,17 +3,10 @@ class ChatSpinner extends HTMLDivElement {
     constructor() {
         super();
 
-        this.className = 'progress';
+        this.className = 'spinner-border';
+        this.role = 'status';
 
-        this.innerHTML = `<div class="indeterminate"></div>`;
-    }
-
-    start() {
-        this.classList.add('active');
-    }
-
-    stop() {
-        this.classList.remove('active');
+        this.innerHTML = `<span class="visually-hidden"></span>`;
     }
 }
 

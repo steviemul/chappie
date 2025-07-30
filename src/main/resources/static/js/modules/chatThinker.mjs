@@ -1,41 +1,67 @@
 import { ChatSpinner } from "./chatSpinner.mjs";
 
-class Thinker extends HTMLUListElement {
+class Thinker extends HTMLDivElement {
 
-    constructor() {
+    constructor(index) {
         super();
 
-        this.className = 'collapsible expandable hide';
+        this.className = 'accordion accordion-flush';
+        this.id = `thinking-container-${index}`;
 
-        const liElement = document.createElement('li');
+        const item = document.createElement('div');
 
-        const header = document.createElement('div');
-        header.className = 'collapsible-header valign-wrapper';
+        item.className = 'accordion-item';
 
+        const header = document.createElement('h2');
+        header.className = 'accordion-header';
+
+        const toggler = document.createElement('button');
         const spinner = new ChatSpinner();
+        const togglerText = document.createElement('span');
 
-        const text = document.createElement('div');
+        togglerText.innerText = 'Show Thinking';
+        togglerText.className = 'm-2';
 
-        text.innerText = 'Show Thinking';
+        toggler.className = 'accordion-button collapsed d-none align-middle';
+        toggler.type = 'button';
+        toggler.setAttribute('data-bs-toggle', 'collapse');
+        toggler.setAttribute('data-bs-target', `#thinking-panel-${index}`);
 
-        header.appendChild(text);
-        header.appendChild(spinner);
+        toggler.appendChild(spinner);
+        toggler.appendChild(togglerText);
 
-        this.headerText = text;
+        toggler.addEventListener('hidden.bs.collapse', evt => {
+            togglerText.innerText = 'Show Thinking';
+        });
 
-        liElement.appendChild(header);
+        toggler.addEventListener('shown.bs.collapse', evt => {
+            togglerText.innerText = 'Hide Thinking';
+        });
 
-        const body = document.createElement('div');
-        body.className = 'collapsible-body';
+        header.appendChild(toggler);
+
+        item.appendChild(header);
+
+        const panel = document.createElement('div');
+
+        panel.id = `thinking-panel-${index}`;
+        panel.className = 'accordion-collapse collapse';
+
+        const panelBody = document.createElement('div');
+        panelBody.className = 'accordion-body';
+
+        panel.appendChild(panelBody);
 
         const contentElement = document.createElement('pre');
-        body.appendChild(contentElement);
+        panelBody.appendChild(contentElement);
 
-        liElement.appendChild(body);
+        item.appendChild(panel);
 
-        this.appendChild(liElement);
+        this.appendChild(item);
 
-        this.header = header;
+        this.toggler = toggler;
+        this.spinner = spinner;
+        this.togglerText = togglerText;
         this.contentElement = contentElement;
     }
 
@@ -48,14 +74,15 @@ class Thinker extends HTMLUListElement {
     }
 
     start() {
-        this.classList.remove('hide');
+        this.toggler.classList.remove('d-none');
     }
 
     finish() {
-        this.header.innerHTML = 'Finished Thinking';
+        this.toggler.removeChild(this.spinner);
+        this.togglerText.innerText = 'Finished Thinking';
     }
 }
 
-window.customElements.define('chappie-thinker', Thinker, {extends: 'ul'})
+window.customElements.define('chappie-thinker', Thinker, {extends: 'div'})
 
 export { Thinker }

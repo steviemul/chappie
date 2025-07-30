@@ -56,7 +56,7 @@ public class ChatService {
         .advisors(a -> a.param(ChatMemory.CONVERSATION_ID, conversationId));
 
     if (options.isTools()) {
-      spec = spec.tools(weatherTool);
+      spec = spec.tools(new WeatherTool());
     }
 
     return spec;
