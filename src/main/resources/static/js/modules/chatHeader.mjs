@@ -7,12 +7,12 @@ class ChatHeader extends HTMLDivElement {
 
         const headerElement = document.createElement('div');
 
-        headerElement.className = 'col-12';
+        headerElement.className = 'col-12 question';
 
         const text = document.createElement('p');
 
-        text.className = 'question right';
-
+        text.className = 'speech-bubble speech-bubble-bottom';
+        
         text.innerHTML = question;
 
         headerElement.appendChild(text);

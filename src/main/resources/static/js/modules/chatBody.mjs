@@ -21,7 +21,7 @@ class ChatBody extends HTMLDivElement {
 
     contentElement.className = 'answer';
 
-    colElement.appendChild(thinkingElement);
+    //colElement.appendChild(thinkingElement);
     colElement.appendChild(contentElement);
 
     this.appendChild(colElement);

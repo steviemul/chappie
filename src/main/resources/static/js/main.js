@@ -69,10 +69,12 @@ const handleFormSubmission = event => {
   const tools = document.getElementById('tools').checked;
   const model = document.getElementById('select-model').value;
 
-  document.getElementById('question').value = '';
+  if (question.trim() !== '') {
+    document.getElementById('question').value = '';
 
-  ask(question, remember, rag, tools, model);
-
+    ask(question, remember, rag, tools, model);
+  }
+ 
   event.preventDefault();
 };
 
@@ -98,8 +100,9 @@ const changeTheme = event => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  document.getElementById("form-question")
-      .addEventListener("submit", handleFormSubmission);
+  const formQuestion = document.getElementById('form-question');
+
+  formQuestion.addEventListener("submit", handleFormSubmission);
 
   document.getElementById('ragUpload').onsubmit = performFormUpload;
 
