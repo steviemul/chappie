@@ -7,7 +7,7 @@ class ChatHeader extends HTMLDivElement {
 
         const headerElement = document.createElement('div');
 
-        headerElement.className = 'col s12';
+        headerElement.className = 'col-12';
 
         const text = document.createElement('p');
 

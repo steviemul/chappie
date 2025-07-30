@@ -67,7 +67,7 @@ const handleFormSubmission = event => {
   const remember = document.getElementById('remember').checked;
   const rag = document.getElementById('rag').checked;
   const tools = document.getElementById('tools').checked;
-  const model = document.getElementById('chat-models').value;
+  const model = document.getElementById('select-model').value;
 
   document.getElementById('question').value = '';
 
@@ -85,10 +85,15 @@ const performFormUpload = evt => {
   fetch('/rag', {method: 'POST', body: fd})
       .then(function(res) {
 
-        M.toast({html: 'File uploaded successfully', classes: 'rounded'})
-
         form.reset();
       })
+};
+
+const changeTheme = event => {
+  const theme = event.target.value;
+  const htmlElement = document.documentElement;
+
+  htmlElement.setAttribute('data-bs-theme', theme);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -96,15 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById("form-question")
       .addEventListener("submit", handleFormSubmission);
 
-  document.getElementById('clear-button')
-      .addEventListener('click', () => {
-        document.getElementById('chat-container').innerHTML = '';
-      });
-
   document.getElementById('ragUpload').onsubmit = performFormUpload;
 
+  document.getElementById('select-theme').onchange = changeTheme;
+
   getModels().then(res => {
-    const modelsSelect = document.getElementById('chat-models');
+    const modelsSelect = document.getElementById('select-model');
 
     const defaultModel = res.defaultModel;
     const models = res.additionalModels;
@@ -115,10 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
       option.text = model;
 
       modelsSelect.add(option);
+
+      if (option.value === defaultModel) {
+        option.selected = true;
+      }
     }
 
     modelsSelect.value = defaultModel;
-
-    M.FormSelect.init(modelsSelect);
   });
 });

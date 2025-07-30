@@ -1,20 +1,22 @@
+:root {
+    --header-height: 56px;
+    --footer-height: 56px;
+    --question-width: 350px;
+}
+
 nav {
     background-color: black;
 }
 
-main {
-    margin-top: 20px;
+body {
+    padding-top: var(--header-height);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-#chat-container {
-    min-height: 300px;
-    max-height: 600px;
-    overflow-y: auto;
-}
-
-.divider {
-    margin: 10px;
-    background-color: lightgray;
+section {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
 }
 
 .answer {
@@ -25,32 +27,22 @@ main {
     background-color: #f5f5f5;
 }
 
-.thinking > div {
-    margin-right:30px;
+main {
+    flex: 1;
 }
 
-.collapsible-body pre {
-    white-space:pre-wrap;
-    word-wrap:break-word;
+footer {
+    position: sticky;
+    bottom: 0;
 }
 
-.question {
-    background-color: #424242;
-    color: white;
-    border-radius: 5px;
-    padding: 10px;
+.sidebar {
+
+}
+.sidebar > form {
+    margin-top: 20px;
 }
 
-.chat-session {
-    margin-bottom: 0;
-    margin-top: 0;
-}
-
-.chat-session .row {
-    margin-bottom: 0;
-    margin-top: 0;
-}
-
-#clear-button {
-    cursor: pointer;
+#question {
+    width: var(--question-width);
 }

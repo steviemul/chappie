@@ -32,6 +32,12 @@ public class ChatService {
         .content();
   }
 
+  public Flux<OllamaApi.ProgressResponse> pullModel(String name) {
+    OllamaApi.PullModelRequest request = new OllamaApi.PullModelRequest(name);
+
+    return ollamaApi.pullModel(request);
+  }
+
   public Models getAvailableModels() {
 
     List<String> additionalModels = ollamaApi.listModels().models().stream()

@@ -1,5 +1,5 @@
 import { Thinker } from "./chatThinker.mjs";
-import { MarkdownBlock } from "https://md-block.verou.me/md-block.js";
+
 const THINK_OPENER = '<think>';
 const THINK_CLOSER = '</think>';
 
@@ -13,7 +13,7 @@ class ChatBody extends HTMLDivElement {
     this.thinking = false;
 
     const colElement = document.createElement('div');
-    colElement.className = 'col s12';
+    colElement.className = 'col-12';
 
     const thinkingElement = new Thinker();
 

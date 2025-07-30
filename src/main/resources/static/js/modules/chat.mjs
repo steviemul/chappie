@@ -10,7 +10,7 @@ class Chat extends HTMLDivElement {
 
         const colElement = document.createElement('div');
 
-        colElement.className = 'col s12';
+        colElement.className = 'col-12';
 
         const header = new ChatHeader(question);
 

@@ -40,14 +40,7 @@ class Thinker extends HTMLUListElement {
     }
 
     connectedCallback() {
-        M.Collapsible.init(this, {
-            onOpenEnd : () => {
-                this.headerText.innerText = 'Hide Thinking';
-            },
-            onCloseEnd: () => {
-                this.headerText.innerText = 'Show Thinking';
-            }
-        });
+
     }
 
     append(content) {
@@ -59,7 +52,7 @@ class Thinker extends HTMLUListElement {
     }
 
     finish() {
-        this.header.innerHTML = 'Finished Thinking <i class="material-icons">check</i>';
+        this.header.innerHTML = 'Finished Thinking';
     }
 }
 
