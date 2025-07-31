@@ -1,4 +1,5 @@
 import { Chat } from "./modules/chat.mjs";
+import ui from "./modules/uiSelector.mjs";
 
 let chatCount=0;
 
@@ -21,7 +22,7 @@ async function streamToChat(url, chat) {
   try {
     const response = await fetch(url);
     const reader = response.body.getReader();
-    const chatContainer = document.getElementById('chat-container');
+    const chatContainer = ui.chatContainer();
 
     const decoder = new TextDecoder();
 
@@ -46,59 +47,48 @@ async function streamToChat(url, chat) {
   }
 }
 
-const ask = (message, remember, rag, tools, model) => {
-  const queryParams = new URLSearchParams({
-    remember,
-    rag,
-    tools,
-    message,
-    model
-  });
+const ask = (params) => {
+  const queryParams = new URLSearchParams(params);
+
+  const {message} = params;
 
   const chat = new Chat(message, chatCount++);
 
-  document.getElementById('chat-container')
-      .appendChild(chat);
+  ui.chatContainer().appendChild(chat);
 
   streamToChat(`chat?${queryParams.toString()}`, chat);
 };
 
 const handleFormSubmission = event => {
 
-  const question = document.getElementById('question').value;
-  const remember = document.getElementById('remember').checked;
-  const rag = document.getElementById('rag').checked;
-  const tools = document.getElementById('tools').checked;
-  const model = document.getElementById('select-model').value;
+  const message = ui.message().value;
+  const remember = ui.remember().checked;
+  const rag = ui.rag().checked;
+  const tools = ui.tools().checked;
+  const model = ui.modelSelector().value;
 
-  if (question.trim() !== '') {
-    document.getElementById('question').value = '';
+  if (message.trim() !== '') {
+    ui.message().value = '';
 
-    ask(question, remember, rag, tools, model);
+    ask({
+      message, 
+      remember, 
+      rag, 
+      tools, 
+      model
+    });
   }
  
   event.preventDefault();
 };
 
-const showMessage = msg => {
-
-  const toastElement = document.querySelector('#toastMessage .toast');
-
-  const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
-
-  const messageElement = document.querySelector('#toastMessage .toast-body');
-
-  messageElement.innerText = msg;
-
-  toast.show();
-
-};
-
-const clearChatHistory = evt => {
+const clearChatHistory = () => {
 
   fetch('/history', {method: 'DELETE'})
       .then(function(res) {
-        showMessage('Chat History cleared successfully');
+        if (res.ok) {
+          ui.showMessage('Chat History cleared successfully');
+        }
       });
 };
 
@@ -106,7 +96,7 @@ const clearVectorStore = evt => {
 
   fetch('/vectors', {method: 'DELETE'})
       .then(function(res) {
-        showMessage('Vector store cleared successfully');
+        ui.showMessage('Vector store cleared successfully');
       });
 };
 
@@ -122,7 +112,7 @@ const performFormUpload = evt => {
       .then(function(res) {
         form.reset();
         
-        showMessage('File uploaded successfully');
+        ui.showMessage('File uploaded successfully');
       });
 };
 
@@ -133,9 +123,48 @@ const changeTheme = event => {
   htmlElement.setAttribute('data-bs-theme', theme);
 };
 
-const calcPercentage = (x, y) => {
-  return (x / y) * 100;
-};
+async function refreshModels() {
+
+  const res = await getModels();
+
+  const modelsSelect = ui.modelSelector();
+
+  modelsSelect.innerHTML = '';
+
+  const defaultModel = res.defaultModel;
+  const models = res.additionalModels;
+
+  for (const model of models) {
+    const option = document.createElement('option');
+    option.value = model;
+    option.text = model;
+
+    modelsSelect.add(option);
+
+    if (option.value === defaultModel) {
+      option.selected = true;
+    }
+  }
+
+  modelsSelect.value = defaultModel;
+
+}
+
+const dots = (max) => {
+
+  let index = 0;
+
+  const interval = setInterval(() => {
+    index = (index > max) ? 0 : index + 1;
+  }, 1500);
+
+  return {
+    value : () => ' .'.repeat(index),
+    finished : () => {
+      clearInterval(interval);
+    }
+  };
+}
 
 async function pullModel () {
 
@@ -144,27 +173,30 @@ async function pullModel () {
 
     const response = await fetch(`/models/${name}`);
     
-    const statusPanel = document.getElementById('pull-model-status');
+    const statusPanel = ui.pullModelStatusPanel();
 
     const reader = response.body.getReader();
 
-    const statuses = new Set();
+    ui.pullModelInProgress();
+
+    let index = 0;
+
+    const progress = dots(10);
 
     while (true) {
       const {done, value} = await reader.read();
 
       if (done) {
+        progress.finished();
         console.log('Pulling Stream complete');
-        showMessage(`Model ${name} pulled successfully`)
+        ui.showMessage(`Model ${name} pulled successfully`)
 
-        const modalElement = document.getElementById('modalPullModel');
-
-        const modalPullModel = bootstrap.Modal.getInstance(modalElement);
-
-        modalPullModel.hide();
+        ui.pullModelFinished();
 
         statusPanel.innerHTML = '';
-
+        
+        refreshModels();
+        
         break;
       }
 
@@ -172,13 +204,17 @@ async function pullModel () {
       
       const status = decoder.decode(value, {stream: true}).trim();  
       
-      console.log(`Status : ${status}`);
+      const dots = ' .'.repeat(index++);
 
-      statuses.add(status);
+      statusPanel.innerHTML = status + progress.value();
+
+      console.debug(`Status : ${statusPanel.innerHTML}`);
       
-      statusPanel.innerHTML = status;
+      if (index > 10) index = 0;
     }
   } catch (error) {
+    progress.finished();
+    ui.pullModelFinished();
     console.error('Error streaming model response : ', error)
   }
 
@@ -186,38 +222,17 @@ async function pullModel () {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const formQuestion = document.getElementById('form-question');
+  const questionForm = ui.questionForm();
+  const ragForm = ui.ragForm();
 
-  formQuestion.addEventListener("submit", handleFormSubmission);
+  questionForm.addEventListener('submit', handleFormSubmission);
+  ragForm.addEventListener('submit', performFormUpload);
 
-  document.getElementById('ragUpload').onsubmit = performFormUpload;
+  ui.themeSelector().onchange = changeTheme;
 
-  document.getElementById('select-theme').onchange = changeTheme;
+  ui.clearHistoryButton().onclick = clearChatHistory;
+  ui.clearVectorsButton().onclick = clearVectorStore;
+  ui.pullModelButton().onclick = pullModel;
 
-  document.getElementById('clear-history').onclick = clearChatHistory;
-  document.getElementById('clear-vectors').onclick = clearVectorStore;
-  document.getElementById('btn-pull-model').onclick = pullModel;
-
-  getModels().then(res => {
-    const modelsSelect = document.getElementById('select-model');
-
-    modelsSelect.innerHTML = '';
-
-    const defaultModel = res.defaultModel;
-    const models = res.additionalModels;
-
-    for (const model of models) {
-      const option = document.createElement('option');
-      option.value = model;
-      option.text = model;
-
-      modelsSelect.add(option);
-
-      if (option.value === defaultModel) {
-        option.selected = true;
-      }
-    }
-
-    modelsSelect.value = defaultModel;
-  });
+  refreshModels();
 });

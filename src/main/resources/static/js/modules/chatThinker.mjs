@@ -30,11 +30,11 @@ class Thinker extends HTMLDivElement {
         toggler.appendChild(spinner);
         toggler.appendChild(togglerText);
 
-        toggler.addEventListener('hidden.bs.collapse', evt => {
+        toggler.addEventListener('hidden.bs.collapse', () => {
             togglerText.innerText = 'Show Thinking';
         });
 
-        toggler.addEventListener('shown.bs.collapse', evt => {
+        toggler.addEventListener('shown.bs.collapse', () => {
             togglerText.innerText = 'Hide Thinking';
         });
 
@@ -53,6 +53,7 @@ class Thinker extends HTMLDivElement {
         panel.appendChild(panelBody);
 
         const contentElement = document.createElement('pre');
+
         panelBody.appendChild(contentElement);
 
         item.appendChild(panel);
