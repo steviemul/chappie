@@ -23,6 +23,11 @@ body {
     overflow-y: hidden;
 }
 
+button.renderer {
+    border-radius: 0;
+    margin: 2px;
+}
+
 section {
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
 }
