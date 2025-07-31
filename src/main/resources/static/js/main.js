@@ -80,17 +80,50 @@ const handleFormSubmission = event => {
   event.preventDefault();
 };
 
+const showMessage = msg => {
+
+  const toastElement = document.querySelector('#toastMessage .toast');
+
+  const toast = bootstrap.Toast.getOrCreateInstance(toastElement);
+
+  const messageElement = document.querySelector('#toastMessage .toast-body');
+
+  messageElement.innerText = msg;
+
+  toast.show();
+
+};
+
+const clearChatHistory = evt => {
+
+  fetch('/history', {method: 'DELETE'})
+      .then(function(res) {
+        showMessage('Chat History cleared successfully');
+      });
+};
+
+const clearVectorStore = evt => {
+
+  fetch('/vectors', {method: 'DELETE'})
+      .then(function(res) {
+        showMessage('Vector store cleared successfully');
+      });
+};
+
 const performFormUpload = evt => {
 
   const form = evt.target;
 
   const fd = new FormData(form);
 
+  evt.preventDefault();
+
   fetch('/rag', {method: 'POST', body: fd})
       .then(function(res) {
-
         form.reset();
-      })
+        
+        showMessage('File uploaded successfully');
+      });
 };
 
 const changeTheme = event => {
@@ -98,6 +131,57 @@ const changeTheme = event => {
   const htmlElement = document.documentElement;
 
   htmlElement.setAttribute('data-bs-theme', theme);
+};
+
+const calcPercentage = (x, y) => {
+  return (x / y) * 100;
+};
+
+async function pullModel () {
+
+  try {
+    const name = document.getElementById('model-name').value;
+
+    const response = await fetch(`/models/${name}`);
+    
+    const statusPanel = document.getElementById('pull-model-status');
+
+    const reader = response.body.getReader();
+
+    const statuses = new Set();
+
+    while (true) {
+      const {done, value} = await reader.read();
+
+      if (done) {
+        console.log('Pulling Stream complete');
+        showMessage(`Model ${name} pulled successfully`)
+
+        const modalElement = document.getElementById('modalPullModel');
+
+        const modalPullModel = bootstrap.Modal.getInstance(modalElement);
+
+        modalPullModel.hide();
+
+        statusPanel.innerHTML = '';
+
+        break;
+      }
+
+      const decoder = new TextDecoder();
+      
+      const status = decoder.decode(value, {stream: true}).trim();  
+      
+      console.log(`Status : ${status}`);
+
+      statuses.add(status);
+      
+      statusPanel.innerHTML = status;
+    }
+  } catch (error) {
+    console.error('Error streaming model response : ', error)
+  }
+
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -110,8 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('select-theme').onchange = changeTheme;
 
+  document.getElementById('clear-history').onclick = clearChatHistory;
+  document.getElementById('clear-vectors').onclick = clearVectorStore;
+  document.getElementById('btn-pull-model').onclick = pullModel;
+
   getModels().then(res => {
     const modelsSelect = document.getElementById('select-model');
+
+    modelsSelect.innerHTML = '';
 
     const defaultModel = res.defaultModel;
     const models = res.additionalModels;

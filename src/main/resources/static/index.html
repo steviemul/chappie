@@ -8,6 +8,41 @@
         <link href="css/styles.css" rel="stylesheet">
     </head>
     <body>
+        <div aria-live="polite" aria-atomic="true" class="bg-body-secondary position-relative bd-example-toasts rounded-3">
+            <div class="toast-container p-3" id="toastMessage">
+                <div class="toast align-items-center text-bg-success border-0 top-0 end-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                        
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal fade" id="modalPullModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Download Model</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form-pull-model" class="form-floating mb-3 mt-3">
+                            <input type="text" class="form-control" id="model-name" placeholder="">
+                            <label for="question">Model Name</label>
+                        </form>
+                        <pre id="pull-model-status" class="p-2"></pre>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="btn-pull-model" class="btn btn-primary">Download Model</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container-fluid justify-content-center">
                 <a href="#"><img src="images/logo.png"></a>
@@ -60,17 +95,35 @@
                     <form id="ragUpload">
                         <div class="mb-3">
                             <label for="file" class="form-label">Upload RAG Document</label>
-                            <input class="form-control" type="file" id="file">
+                            <input class="form-control" type="file" name="file">
                         </div>
                         <div class="mb-3">
-                            <button type="button" class="btn btn-primary">Upload</button>
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <form>
+                        <h6>Actions</h6>
+                        <div class="mb-3">
+                            <button type="button" id="clear-history" class="btn btn-secondary btn-sm">Clear Chat History</button>
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" id="clear-vectors" class="btn btn-secondary btn-sm">Clear Vector Store</button>
+                        </div>
+                         <div class="mb-3">
+                            <button type="button" 
+                                id="pull-model" 
+                                data-bs-toggle="modal" data-bs-target="#modalPullModel"
+                                class="btn btn-secondary btn-sm">Download Model</button>
                         </div>
                     </form>
                 </div>
 
                 <!-- Main Area -->
                 <section class="col-9 d-flex justify-content-center align-items-center">
-
+                    
                     <div class="row">
                         <div class="col-12 d-flex justify-content-center">
                             <div class="chat-fixed-width">

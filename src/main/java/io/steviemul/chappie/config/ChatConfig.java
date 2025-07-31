@@ -23,25 +23,28 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class ChatConfig {
 
-  private static final String VECTOR_STORE_TABLE = "vector_store_chappie";
-
+  public static final String VECTOR_STORE_TABLE = "vector_store_chappie";
+  public static final String CHAT_MEMORY_TABLE = "spring_ai_chat_memory";
+  
   private final OllamaApi ollamaApi;
-  private final String defaultChatModel;
-  private final String embeddingModel;
+  private final String defaultChatModelName;
+  private final String embeddingModelName;
   private final JdbcTemplate jdbcTemplate;
+  private final String chatBaseUrl;
 
   public ChatConfig(
-      @Value("${spring.ai.chat.model}") String defaultChatModel,
+      @Value("${spring.ai.chat.model}") String defaultChatModelName,
       @Value("${spring.ai.chat.base-url}") String chatBaseUrl,
-      @Value("${spring.ai.embedding.model}") String embeddingModel,
+      @Value("${spring.ai.embedding.model}") String embeddingModelName,
       JdbcTemplate jdbcTemplate) {
 
     this.ollamaApi = OllamaApi.builder()
         .baseUrl(chatBaseUrl)
         .build();
 
-    this.defaultChatModel = defaultChatModel;
-    this.embeddingModel = embeddingModel;
+    this.chatBaseUrl = chatBaseUrl;
+    this.defaultChatModelName = defaultChatModelName;
+    this.embeddingModelName = embeddingModelName;
     this.jdbcTemplate = jdbcTemplate;
   }
 
@@ -50,18 +53,23 @@ public class ChatConfig {
       .build();
 
   @Bean
+  public String chatBaseUrl() {
+    return chatBaseUrl;
+  }
+
+  @Bean
   public ToolCallingManager toolCallingManager() {
     return ToolCallingManager.builder().build();
   }
 
   @Bean
-  public String defaultChatModel() {
-    return defaultChatModel;
+  public String defaultChatModelName() {
+    return defaultChatModelName;
   }
 
   @Bean
   public String embeddingModelName() {
-    return embeddingModel;
+    return embeddingModelName;
   }
 
   @Bean
@@ -87,7 +95,7 @@ public class ChatConfig {
   public OllamaChatModel ollamaChatModel() {
 
     OllamaOptions ollamaOptions = OllamaOptions.builder()
-        .model(defaultChatModel)
+        .model(defaultChatModelName)
         .build();
 
     return OllamaChatModel.builder()
@@ -111,7 +119,7 @@ public class ChatConfig {
   public EmbeddingModel embeddingModel() {
 
     OllamaOptions options = OllamaOptions.builder()
-        .model(embeddingModel)
+        .model(embeddingModelName)
         .build();
 
     return OllamaEmbeddingModel.builder()
