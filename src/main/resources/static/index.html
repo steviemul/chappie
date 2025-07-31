@@ -105,19 +105,27 @@
                     <hr>
 
                     <form>
-                        <h6>Actions</h6>
+                        <h6>Clear</h6>
                         <div class="mb-3">
-                            <button type="button" id="clear-history" class="btn btn-secondary btn-sm">Clear Chat History</button>
+                            <button type="button" id="clear-history" class="btn btn-secondary btn-sm">Chat History</button>
+                            <button type="button" id="clear-vectors" class="btn btn-secondary btn-sm">Vector Store</button>
                         </div>
+                    
+                    </form>
+
+                    <hr>
+
+                    <form>
+                        <h6>Models</h6>
                         <div class="mb-3">
-                            <button type="button" id="clear-vectors" class="btn btn-secondary btn-sm">Clear Vector Store</button>
-                        </div>
-                         <div class="mb-3">
                             <button type="button" 
                                 id="pull-model" 
                                 data-bs-toggle="modal" data-bs-target="#modalPullModel"
                                 class="btn btn-secondary btn-sm">Pull Model</button>
+
+                            <button type="button" id="delete-model" class="btn btn-secondary btn-sm">Delete Model</button>
                         </div>
+
                     </form>
                 </div>
 

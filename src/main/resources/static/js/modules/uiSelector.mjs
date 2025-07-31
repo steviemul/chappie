@@ -25,6 +25,7 @@ const clearHistoryButton = () => document.getElementById('clear-history');
 const clearVectorsButton = () => document.getElementById('clear-vectors');
 const pullModelButton = () => document.getElementById('btn-pull-model');
 const pullModelStatusPanel = () => document.getElementById('pull-model-status');
+const deleteModelButton = () => document.getElementById('delete-model');
 
 const pullModelBootstrap = () => bootstrap.Modal.getInstance(pullModelDialog());
 
@@ -60,5 +61,6 @@ export default {
     pullModelBootstrap,
     pullModelInProgress,
     pullModelFinished,
-    showMessage
+    showMessage,
+    deleteModelButton
 };

@@ -217,7 +217,19 @@ async function pullModel () {
     ui.pullModelFinished();
     console.error('Error streaming model response : ', error)
   }
+};
 
+const deleteModel = () => {
+
+  const model = ui.modelSelector().value;
+
+  fetch(`/models/${model}`, {method: 'DELETE'})
+      .then(res => {
+        if (res.ok) {
+          ui.showMessage(`Model ${model} deleted successfully`);
+          refreshModels();
+        }
+      });
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -233,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ui.clearHistoryButton().onclick = clearChatHistory;
   ui.clearVectorsButton().onclick = clearVectorStore;
   ui.pullModelButton().onclick = pullModel;
+  ui.deleteModelButton().onclick = deleteModel;
 
   refreshModels();
 });
