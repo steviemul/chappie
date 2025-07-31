@@ -11,6 +11,10 @@
     --bs-accordion-active-bg: var(--bs-accordion-bg);
 }
 
+.chat-session {
+    margin-top: 10px;
+}
+
 nav {
     background-color: black;
 }

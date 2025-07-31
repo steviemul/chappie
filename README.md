@@ -1,10 +1,13 @@
 # Chappie
 
-Basic Spring AI Demo App, showing how to build a basic chatbot and implement different features.
+Chappie is a basic Spring AI Demo App, showing how to build a basic chatbot and implement different features.
+
+The app is designed to be an easy way to get started with playing around with AI models locally, 
+without needing to sign up for AI models or vector databases.
 
 You can select any model that you have running in your Ollama instance through the selected option at the top of the page.
 
-By default, there is 1 default model, which is pulled on startup if not available.
+By default, there is 1 model available, which is pulled on startup if not available.
 
 The default model used is **llama3.2** but this can be overridden by setting an environment variable.
 For example to use a smaller model such as **llama3.2:1b**
@@ -22,8 +25,8 @@ The app shows how to use a few different features :
 ## Running
 The included docker compose file has all the dependencies required to run the app
 
-- A ollama image to run models locally.
-- A postgres database with the PG vector extension installed.
+- A ollama image to run Ollama AI models locally.
+- A postgres database with the PG vector extension installed for RAG features.
 
 ```shell
 docker compose up -d
@@ -41,7 +44,7 @@ The port can be overwritten by setting the following environment variable.
 export SERVER_PORT=.....
 ```
 
-# UI
+## UI
 
 The UI has the following options
 - Basic chat area to interact with the currently selected model.
@@ -53,9 +56,18 @@ The UI has the following options
 - Option to clear chat history from the DB.
 - Option to clear the vector store used for RAG.
 
-# Env Vars
+## Env Vars
 
 The following env vars may be set
 - CHAT_MODEL : The default chat model to use, pulled on startup if not available. Defaulted to **llama3.2**
 - CHAT_BASE_URL : The URL of your Ollama instance, defaulted to http://localhost:11434
 - EMBEDDING_MODEL : The default embedding model to use, defaulted to **nomic-embed-text:latest**
+
+## Models
+
+The UI allows you to pull models, but these can be pulled separately outside the app using the ollama cli.
+
+```shell
+ollama pull <MODEL_NAME>
+```
+
