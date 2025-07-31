@@ -5,7 +5,7 @@ class Thinker extends HTMLDivElement {
     constructor(index) {
         super();
 
-        this.className = 'accordion accordion-flush';
+        this.className = 'accordion accordion-flush thinker';
         this.id = `thinking-container-${index}`;
 
         const item = document.createElement('div');

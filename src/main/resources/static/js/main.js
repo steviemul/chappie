@@ -31,6 +31,7 @@ async function streamToChat(url, chat) {
 
       if (done) {
         console.log('Stream complete');
+        chat.finished();
         break;
       }
 
@@ -203,8 +204,6 @@ async function pullModel () {
       const decoder = new TextDecoder();
       
       const status = decoder.decode(value, {stream: true}).trim();  
-      
-      const dots = ' .'.repeat(index++);
 
       statusPanel.innerHTML = status + progress.value();
 

@@ -32,8 +32,16 @@ pre {
     word-wrap: break-word;
 }
 
+.thinker {
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
 .answer {
     padding: 20px;
+}
+
+.answer p {
+    margin: 0;
 }
 
 main {

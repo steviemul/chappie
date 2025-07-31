@@ -25,6 +25,11 @@ class Chat extends HTMLDivElement {
     addContent(content) {
         this.body.append(content);
     }
+
+    finished() {
+        this.body.finished();
+    }
+    
 }
 
 window.customElements.define('chappie-chat', Chat, {extends: 'div'})

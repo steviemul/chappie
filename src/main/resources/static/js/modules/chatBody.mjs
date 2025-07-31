@@ -3,6 +3,12 @@ import { Thinker } from "./chatThinker.mjs";
 const THINK_OPENER = '<think>';
 const THINK_CLOSER = '</think>';
 
+const renderMarkdown = text => {
+  const rendered = DOMPurify.sanitize(marked.parse(text));
+
+  return rendered;
+};
+
 class ChatBody extends HTMLDivElement {
 
   constructor(index) {
@@ -11,6 +17,7 @@ class ChatBody extends HTMLDivElement {
 
     this.className = 'row';
     this.thinking = false;
+    this.content = '';
 
     const colElement = document.createElement('div');
     colElement.className = 'col-12';
@@ -19,10 +26,16 @@ class ChatBody extends HTMLDivElement {
 
     const contentElement = document.createElement('pre');
 
-    contentElement.className = 'answer border rounded';
+    contentElement.className = 'answer';
 
-    colElement.appendChild(thinkingElement);
-    colElement.appendChild(contentElement);
+    const containerElement = document.createElement('div');
+
+    containerElement.className = 'border rounded';
+
+    containerElement.appendChild(thinkingElement);
+    containerElement.appendChild(contentElement);
+
+    colElement.appendChild(containerElement);
 
     this.appendChild(colElement);
 
@@ -50,8 +63,21 @@ class ChatBody extends HTMLDivElement {
       this.thinkingElement.append(content);
     }
     else {
+      this.content += content;
       this.contentElement.innerHTML += content;
     }
+  }
+
+  finished() {
+
+  }
+
+  renderMarkdown() {
+    this.contentElement.innerHTML = renderMarkdown(content);
+  }
+
+  renderRaw() {
+    this.contentElement.innerHTML = this.content;
   }
 
 }
