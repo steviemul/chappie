@@ -16,11 +16,13 @@ function toggleRender() {
   if (!this.rendered) {
     this.contentElement.innerHTML = renderMarkdown(this.content);
     this.renderToggler.innerHTML = TEXT_ICON;
+    this.renderToggler.title = 'Show Raw Text';
     this.rendered = true;
   }
   else {
     this.contentElement.innerHTML = this.content;
     this.renderToggler.innerHTML = CODE_ICON;
+    this.renderToggler.title = 'Render markdown';
     this.rendered = false;
   }
 }
@@ -42,6 +44,8 @@ class ChatBody extends HTMLDivElement {
     const thinkingElement = new Thinker(index);
 
     const renderToggler = document.createElement('button');
+
+    renderToggler.title = 'Render markdown';
 
     renderToggler.onclick = toggleRender.bind(this);
 
